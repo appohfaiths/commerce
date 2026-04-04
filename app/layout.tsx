@@ -7,6 +7,7 @@ import { ReactNode } from "react";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { baseUrl } from "lib/utils";
+import { Suspense } from "react";
 
 const { SITE_NAME } = process.env;
 
@@ -34,11 +35,17 @@ export default async function RootLayout({
     <html lang="en" className={GeistSans.variable}>
       <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
         <CartProvider cartPromise={cart}>
-          <Navbar />
+          <Suspense>
+            <Navbar />
+          </Suspense>
           <main>
-            {children}
+            <Suspense>
+              {children}
+            </Suspense>
             <Toaster closeButton />
-            <WelcomeToast />
+            <Suspense>
+              <WelcomeToast />
+            </Suspense>
           </main>
         </CartProvider>
       </body>
